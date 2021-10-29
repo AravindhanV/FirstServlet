@@ -20,7 +20,7 @@ public class LoginServlet  extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String user = request.getParameter("user");
         String pwd = request.getParameter("pwd");
-        if (isNameValid(user) ) {
+        if (isNameValid(user) && isValidPassword(pwd)) {
             request.setAttribute("user", user);
             request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
 
@@ -35,5 +35,9 @@ public class LoginServlet  extends HttpServlet {
 
     private boolean isNameValid(String name) {
         return Pattern.matches("^[A-Z][a-zA-Z]{2,}$", name);
+    }
+
+    private boolean isValidPassword(String password) {
+        return Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()]).{8,}$", password);
     }
 }
